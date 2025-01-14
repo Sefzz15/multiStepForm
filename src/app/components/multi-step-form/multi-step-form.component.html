@@ -1,0 +1,53 @@
+<div class="multi-step-form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div *ngIf="step === 1">
+      <h2>Step 1: Personal Information</h2>
+      <div formGroupName="step1">
+        <label for="name">Name:</label>
+        <input id="name" formControlName="name" type="text" />
+        <div *ngIf="form.get('step1.name')!.touched && form.get('step1.name')!.invalid">
+          <span *ngIf="form.get('step1.name')!.hasError('required')">Name is required</span>
+        </div>
+
+        <label for="email">Email:</label>
+        <input id="email" formControlName="email" type="email" />
+        <div *ngIf="form.get('step1.email')!.touched && form.get('step1.email')!.invalid">
+          <span *ngIf="form.get('step1.email')!.hasError('required')">Email is required</span>
+          <span *ngIf="form.get('step1.email')!.hasError('email')">Invalid email</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="step === 2">
+      <h2>Step 2: Address Information</h2>
+      <div formGroupName="step2">
+        <label for="address">Address:</label>
+        <input id="address" formControlName="address" type="text" />
+
+        <label for="city">City:</label>
+        <input id="city" formControlName="city" type="text" />
+      </div>
+    </div>
+
+    <div *ngIf="step === 3">
+      <h2>Step 3: Password</h2>
+      <div formGroupName="step3">
+        <label for="password">Password:</label>
+        <input id="password" formControlName="password" type="password" />
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input id="confirmPassword" formControlName="confirmPassword" type="password" />
+
+        <div *ngIf="form.get('step3')!.hasError('passwordMismatch') && form.get('step3')!.touched">
+          <span>Passwords do not match</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button type="button" (click)="prevStep()" [disabled]="step === 1">Previous</button>
+      <button type="button" (click)="nextStep()" [disabled]="step === 3">Next</button>
+      <button type="submit" [disabled]="step !== 3 || !form.valid">Submit</button>
+    </div>
+  </form>
+</div>
